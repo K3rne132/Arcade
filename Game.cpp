@@ -120,8 +120,10 @@ void Game::snakeInit() {
     LedRectangle border4 = LedRectangle(this, 3, 28, 3, 28);
     LedRectangle border5 = LedRectangle(this, 4, 27, 4, 27);
     LedRectangle border6 = LedRectangle(this, 5, 26, 5, 26);
-    LedRectangle border7 = LedRectangle(this, 6, 25, 6, 25);
-    LedRectangle border8 = LedRectangle(this, 7, 24, 7, 24);
+    LedRectangle border7 = LedRectangle(this, 5, 25, 6, 25);
+    LedRectangle border8 = LedRectangle(this, 5, 24, 7, 24);
+    LedRectangle border9 = LedRectangle(this, 22, 23, 7, 24);
+    
     border1.displayRectangle();
     border2.displayRectangle();
     border3.displayRectangle();
@@ -130,9 +132,17 @@ void Game::snakeInit() {
     border6.displayRectangle();
     border7.displayRectangle();
     border8.displayRectangle();
+    border9.displayRectangle();
+
+    LedRectangle empty1 = LedRectangle(this, 24, 30, 8, 23);
+    empty1.hideRectangle();
+    LedRectangle empty2 = LedRectangle(this, 24, 30, 13, 18);
+    empty2.hideRectangle();
     this->SnakeSegments[0] = newVec(15, 15);
 	  this->Apple = newVec(10, 15);
 	  this->Direction = Dir::Up;
+    LedString ls = LedString(this, "000", 3, 9, 25);
+    ls.displayNumber();
     this->Status = State::Snake;
 }
 
@@ -187,15 +197,19 @@ void Game::snake() {
 		while (!AppleValid()) {
 			int rand = millis() % 256;
 			Apple.x = 8 + rand / 16;
-			Apple.y = 8 + rand % 16;
+			Apple.y = 6 + rand % 16;
 		}
-		SnakeLength++;
+    SnakeLength--;
+    char digits[] = {SnakeLength / 100 + 48, (SnakeLength % 100) / 10 + 48, (SnakeLength % 10 + 48)};
+    LedString ls = LedString(this, digits, 3, 9, 25);
+    ls.displayNumber();
+		SnakeLength+=2;
 	}
  
   setLed(SnakeSegments[0].x, SnakeSegments[0].y, true);
   setLed(SnakeSegments[SnakeLength - 1].x, SnakeSegments[SnakeLength - 1].y, false);
 	
-	if (SnakeSegments[0].x < 8 || SnakeSegments[0].x > 23 || SnakeSegments[0].y < 8 || SnakeSegments[0].y > 23) {
+	if (SnakeSegments[0].x < 8 || SnakeSegments[0].x > 23 || SnakeSegments[0].y < 6 || SnakeSegments[0].y > 21) {
 		delay(500);
 		clearAll();
 		delay(500);
