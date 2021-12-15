@@ -24,7 +24,7 @@ public:
     void menuUpdate();
     void snake();
     void snakeInit();
-    void tetris();
-    void tetrisInit();
+    void nyan();
+    void nyanInit();
     void clearAll();
 };

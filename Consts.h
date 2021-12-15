@@ -1,9 +1,84 @@
 #ifndef CONSTS_H
 #define CONSTS_H
 
-const int VERTICAL   = A5;
-const int HORIZONTAL = A4;
+#define A3   220
+#define A3is 233
+#define B3   247
+
+#define C4   261
+#define C4is 277
+#define D4   294
+#define D4is 311
+#define E4   330
+#define F4   349
+#define F4is 370
+#define G4   392
+#define G4is 415
+#define A4   440
+#define A4is 466
+#define B4   494
+
+#define C5   523
+#define C5is 554
+#define D5   587
+#define D5is 622
+#define E5   659
+#define F5   698
+#define F5is 740
+#define G5   784
+#define G5is 831
+#define A5   880
+#define A5is 932
+#define B5   988
+
+#define C6   1047
+#define C6is 1109
+#define D6   1175
+#define D6is 1245
+#define E6   1319
+#define F6   1397
+#define F6is 1480
+#define G6   1568
+#define G6is 1661
+#define A6   1760
+#define A6is 1865
+#define B6   1976
+
+
+#define NOTE    1280
+#define HALF    640
+#define QUARTER 320
+#define EIGHT   160
+#define SIXTEEN 80
+
+const int VERTICAL   = A0;
+const int HORIZONTAL = A1;
 const int CLICK      = 1;
+const int BUZZER     = 0;
+
+const long Nyan[20] = {
+    0B00000000111111111111111110000000,
+    0B00000001000000000000000001000000,
+    0B00000010000000000000000000100000,
+    0B00000010000000010010000000100000,
+    0B00000010001000000000000000100000,
+    0B00000010000000000011001000101100,
+    0B00000010000000000100100000110010,
+    0B11110010000000100100010000100010,
+    0B10011010000000000100001111000010,
+    0B11001110000100000100000000000010,
+    0B01100110000000011000000000000001,
+    0B00110010010000001000010000001001,
+    0B00011110000000001000110001011001,
+    0B00000110000001001011000000000111,
+    0B00000010001000001011010010010111,
+    0B00000010000000000100011111110010,
+    0B00000111000000000010000000000100,
+    0B00001000111111111111111110111000,
+    0B00001001101001000001001010010000,
+    0B00001111001110000000111001100000};
+
+const int nyanTheme[287] = {D4is,E4,F4is,0,B4,0,D4is,E4,F4is,B4,C5is,D5is,C5is,A4is,B4,0,F4is,0,D4is,E4,F4is,0,B4,0,C5is,A4is,B4,C5is,E5,D5is,E5,C5is,F5is,0,G5is,0,D5is,D5is,0,B4,D5,C5is,B4,0,B4,0,C5is,0,D5,0,D5,C5is,B4,C5is,D5is,F5is,G5is,D5is,F5is,C5is,D5is,B4,C5is,B4,D5is,0,F5is,0,G5is,D5is,F5is,C5is,D5is,B4,D5,D5is,D5,C5is,B4,C5is,D5,0,B4,C5is,D5is,F5is,C5is,D5is,C5is,B4,C5is,0,B4,0,C5is,0,F5is,0,G5is,0,D5is,D5is,0,B4,D5,C5is,B4,0,B4,0,C5is,0,D5,0,D5,C5is,0,C5is,D5is,F5is,G5is,D5is,F5is,C5is,D5is,0,C5is,0,D5is,0,F5is,0,G5is,D5is,F5is,C5is,D5is,B4,D5,D5is,D5,C5is,B4,C5is,D5,0,B4,C5is,D5is,F5is,C5is,D5is,C5is,B4,C5is,0,B4,0,C5is,0,B4,0,F4is,G5is,B4,0,F4is,G5is,B4,C5is,D5is,B4,E5,D5is,E5,F5is,B4,0,B4,0,F4is,G5is,B4,F4is,E5,D5is,C5is,B4,F4is,D4is,E4,F4is,B4,0,F4is,G5is,B4,0,F4is,G5is,B4,B4,C5is,D5is,B4,F4is,G5is,F4is,B4,0,B4,A4is,B4,F4is,G5is,B4,E5,D5is,E5,F5is,B4,0,G5is,0,B4,0,F4is,G5is,B4,0,F4is,G5is,B4,C5is,D5is,B4,E5,D5is,E5,F5is,B4,0,B4,0,F4is,G5is,B4,F4is,E5,D5is,C5is,B4,F4is,D4is,E4,F4is,B4,0,F4is,G5is,B4,0,F4is,G5is,B4,B4,C5is,D5is,B4,F4is,G5is,F4is,B4,0,B4,A4is,B4,F4is,G5is,B4,E5,D5is,E5,F5is,B4,0,C5is};
 
 const unsigned char Letters[26][5] = {
     {B00000110, B00001001, B00001111, B00001001, B00001001}, // A
@@ -57,8 +132,8 @@ enum class State {
     MenuUpdate,
     Snake,
     SnakeInit,
-    Tetris,
-    TetrisInit
+    Nyan,
+    NyanInit
 };
 
 enum class Dir {

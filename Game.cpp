@@ -1,7 +1,9 @@
 #include "Game.h"
 #include "LedString.h"
 #include "LedRectangle.h"
+#include "LedSprite.h"
 #include "Funcs.h"
+#include "Music.h"
 
 void Game::setLed(int x, int y, bool on) {
     LedControl* present;
@@ -74,36 +76,47 @@ void Game::menu() {
     Title.displayString();
     LedString Snake = LedString(this, "SNAKE", 5, 4, 14);
     Snake.displayString();
-    LedString Tetris = LedString(this, "TETRIS", 6, 1, 22);
+    LedString Tetris = LedString(this, "NYAN", 4, 6, 22);
     Tetris.displayString();
 
     LedRectangle SelSnake = LedRectangle(this, 12, 20, 2, 29);
-    LedRectangle SelTetris = LedRectangle(this, 20, 28, 0, 31);
+    LedRectangle SelNyan = LedRectangle(this, 20, 28, 4, 26);
     if (this->Selection)
-        SelTetris.displayRectangle();
+        SelNyan.displayRectangle();
     else
         SelSnake.displayRectangle();
     this->Status = State::MenuUpdate;
 }
 
 void Game::menuUpdate() {
-    if (getVertical() < .3f) {
+    if (getVertical() < .3f && this->Selection == true) {
+        beep(D4, EIGHT);
+        delay(EIGHT);
+        beep(D5, EIGHT);
         this->Selection = false;
-        LedRectangle SelTetris = LedRectangle(this, 20, 28, 0, 31);
-        SelTetris.hideRectangle();
+        LedRectangle SelNyan = LedRectangle(this, 20, 28, 4, 26);
+        SelNyan.hideRectangle();
         LedRectangle SelSnake = LedRectangle(this, 12, 20, 2, 29);
         SelSnake.displayRectangle();
     }
-    else if (getVertical() > .7f) {
+    else if (getVertical() > .7f && this->Selection == false) {
+        beep(D4, EIGHT);
+        delay(EIGHT);
+        beep(D5, EIGHT);
         this->Selection = true;
         LedRectangle SelSnake = LedRectangle(this, 12, 20, 2, 29);
         SelSnake.hideRectangle();
-        LedRectangle SelTetris = LedRectangle(this, 20, 28, 0, 31);
-        SelTetris.displayRectangle();
+        LedRectangle SelNyan = LedRectangle(this, 20, 28, 4, 26);
+        SelNyan.displayRectangle();
     }
     else if (isJoystickPressed()) {
+      beep(E4, EIGHT);
+      delay(EIGHT);
+      beep(F4, EIGHT);
+      delay(EIGHT);
+      beep(F4is, EIGHT);
       if (this->Selection == true)
-          this->Status = State::TetrisInit;
+          this->Status = State::NyanInit;
       else if (this->Selection == false)
           this->Status = State::SnakeInit;
       clearAll();
@@ -121,8 +134,8 @@ void Game::snakeInit() {
     LedRectangle border5 = LedRectangle(this, 4, 27, 4, 27);
     LedRectangle border6 = LedRectangle(this, 5, 26, 5, 26);
     LedRectangle border7 = LedRectangle(this, 5, 25, 6, 25);
-    LedRectangle border8 = LedRectangle(this, 5, 24, 7, 24);
-    LedRectangle border9 = LedRectangle(this, 22, 23, 7, 24);
+    LedRectangle border8 = LedRectangle(this, 6, 24, 7, 24);
+    LedRectangle border9 = LedRectangle(this, 23, 23, 7, 24);
     
     border1.displayRectangle();
     border2.displayRectangle();
@@ -142,8 +155,11 @@ void Game::snakeInit() {
 	  this->Apple = newVec(10, 15);
 	  this->Direction = Dir::Up;
     LedString ls = LedString(this, "000", 3, 9, 25);
-    ls.displayNumber();
+    ls.displayString();
     this->Status = State::Snake;
+
+    LedString snake = LedString(this, "SNAKE", 5, 4, 1);
+    snake.displayReverseString();
 }
 
 void Game::snake() {
@@ -188,6 +204,13 @@ void Game::snake() {
 	}
 	
 	if (SnakeLength >= 255) {
+    beep(F5is, EIGHT);
+    delay(EIGHT);
+    beep(F5is, EIGHT);
+    delay(EIGHT);
+    beep(F5is, EIGHT);
+    delay(EIGHT);
+    beep(C6is, QUARTER);
 		delay(500);
 		clearAll();
 		delay(500);
@@ -197,19 +220,34 @@ void Game::snake() {
 		while (!AppleValid()) {
 			int rand = millis() % 256;
 			Apple.x = 8 + rand / 16;
-			Apple.y = 6 + rand % 16;
+			Apple.y = 7 + rand % 16;
 		}
     SnakeLength--;
     char digits[] = {SnakeLength / 100 + 48, (SnakeLength % 100) / 10 + 48, (SnakeLength % 10 + 48)};
     LedString ls = LedString(this, digits, 3, 9, 25);
-    ls.displayNumber();
+    ls.displayString();
 		SnakeLength+=2;
+    beep(F5is, SIXTEEN);
+    delay(SIXTEEN);
+    beep(C6is, EIGHT);
+    delay(EIGHT);
+    delay(EIGHT);
 	}
- 
-  setLed(SnakeSegments[0].x, SnakeSegments[0].y, true);
   setLed(SnakeSegments[SnakeLength - 1].x, SnakeSegments[SnakeLength - 1].y, false);
+  setLed(SnakeSegments[0].x, SnakeSegments[0].y, true);
+  
+  beep(D4, SIXTEEN);
 	
-	if (SnakeSegments[0].x < 8 || SnakeSegments[0].x > 23 || SnakeSegments[0].y < 6 || SnakeSegments[0].y > 21) {
+	if (SnakeSegments[0].x < 8 || SnakeSegments[0].x > 24 || SnakeSegments[0].y < 7 || SnakeSegments[0].y > 22) {
+    beep(G5is, EIGHT);
+    delay(EIGHT);
+    beep(F5, EIGHT);
+    delay(EIGHT);
+    beep(D5, EIGHT);
+    delay(EIGHT);
+    beep(C5is, EIGHT);
+    delay(EIGHT);
+    beep(A4is, EIGHT);
 		delay(500);
 		clearAll();
 		delay(500);
@@ -217,20 +255,31 @@ void Game::snake() {
 	}
 	
     for (int i = 1; i < this->SnakeLength - 1; i++) {
-		if (SnakeSegments[0].x == SnakeSegments[i].x && SnakeSegments[0].y == SnakeSegments[i].y) {
-			delay(500);
-			clearAll();
-			delay(500);
-			this->Status = State::Menu;
-		}
-	}
+  		if (SnakeSegments[0].x == SnakeSegments[i].x && SnakeSegments[0].y == SnakeSegments[i].y) {
+        beep(G5is, EIGHT);
+        delay(EIGHT);
+        beep(F5, EIGHT);
+        delay(EIGHT);
+        beep(D5, EIGHT);
+        delay(EIGHT);
+        beep(C5is, EIGHT);
+        delay(EIGHT);
+        beep(A4is, EIGHT);
+  			delay(500);
+  			clearAll();
+  			delay(500);
+  			this->Status = State::Menu;
+  		}
+	  }
 	delay(250);
 }
 
-void Game::tetrisInit() {
-    this->Status = State::Tetris;
+void Game::nyanInit() {
+    LedSprite nyan = LedSprite(this, Nyan);
+    nyan.displayImage();
+    this->Status = State::Nyan;
 }
 
-void Game::tetris() {
-    
+void Game::nyan() {
+    play(nyanTheme, 287, this);
 }

@@ -22,11 +22,11 @@ void loop() {
     case State::Snake:
         game.snake();
         break;
-    case State::TetrisInit:
-        game.tetrisInit();
+    case State::NyanInit:
+        game.nyanInit();
         break;
-    case State::Tetris:
-        game.tetris();
+    case State::Nyan:
+        game.nyan();
         break;
     }
 }
